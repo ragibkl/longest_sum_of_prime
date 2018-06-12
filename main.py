@@ -12,7 +12,11 @@ def is_prime(number):
     if number in PRIMES:
         return True
 
-    for i in range(2, int(number ** 0.5)):
+    if number % 2 == 0:
+        NOT_PRIMES.append(number)
+        return False
+
+    for i in range(3, int(number ** 0.5)+ 1, 2):
         if number % i == 0:
             NOT_PRIMES.append(number)
             return False
