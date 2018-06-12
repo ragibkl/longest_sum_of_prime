@@ -22,19 +22,23 @@ def is_prime(number):
 
 
 def sums_of_primes(limit):
-    prime_list = [ i for i in range(limit) if is_prime(i) ]
-    prime_list = reversed(prime_list)
-
     sums = []
     current_sum = 0
     current_primes = []
-    for prime in prime_list:
-        current_sum += prime
-        current_primes.append(prime)
 
-        while current_sum > limit:
+    for i in range(limit):
+        if not is_prime(i):
+            continue
+
+        # pre-empt walk backwards, and taking the data
+        while current_sum + i > limit:
             current_sum -= current_primes.pop(0)
+            if not current_sum:
+                break
+            sums.append((current_sum, current_primes[:]))
 
+        current_sum += i
+        current_primes.append(i)
         sums.append((current_sum, current_primes[:]))
 
     return sums
