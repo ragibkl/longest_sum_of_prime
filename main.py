@@ -2,27 +2,42 @@
 
 import sys
 
-NOT_PRIMES = [ 0, 1 ]
-PRIMES = [ 2, 3 ]
+
+PRIMES = {
+    0: False,
+    1: False,
+    2: True,
+    3: True,
+}
+
 
 def is_prime(number):
-    if number in NOT_PRIMES:
-        return False
-
     if number in PRIMES:
-        return True
+        return PRIMES[number]
 
     if number % 2 == 0:
-        NOT_PRIMES.append(number)
+        PRIMES[number] = False
         return False
 
-    for i in range(3, int(number ** 0.5)+ 1, 2):
+    for i in range(3, int(number ** 0.5) + 1, 2):
         if number % i == 0:
-            NOT_PRIMES.append(number)
+            PRIMES[number] = False
             return False
 
-    PRIMES.append(number)
+    PRIMES[number] = True
     return True
+
+
+def log_progress(i, total):
+    if i == 0:
+        print("Progress: {0:.2f} %".format(0.0), end='')
+    elif i == total:
+        print("\rProgress: Complete!")
+    else:
+        percentile = total / 10000
+        if i % percentile == 0:
+            progress = i / total * 100
+            print("\rProgress: {0:.2f} %".format(progress), end='')
 
 
 def sums_of_primes(limit):
@@ -30,11 +45,8 @@ def sums_of_primes(limit):
     current_sum = 0
     current_primes = []
 
-    percentile = limit / 10000
     for i in range(limit):
-        if i % percentile == 0:
-            progress = i / limit * 100
-            print("\rProgress: {0:.2f} %".format(progress), end='')
+        log_progress(i, limit)
 
         if not is_prime(i):
             continue
@@ -55,11 +67,9 @@ def sums_of_primes(limit):
     return sums
 
 
-def main():
-    limit = 1000000
+def run(limit):
     sums = sums_of_primes(limit)
 
-    longest_sum = 0
     longest_prime = []
     for key, value in sums:
         if key > limit:
@@ -68,12 +78,18 @@ def main():
             continue
 
         if len(value) > len(longest_prime):
-            longest_sum = key
             longest_prime = sorted(value)
 
     print("Under limit: {}".format(limit))
-    print("Longest sum of primes: {}".format(longest_sum))
-    print("with primes: {}, with {} terms".format(longest_prime, len(longest_prime)))
+    print("Longest sum of primes: {}".format(sum(longest_prime)))
+    print("prime numbers count: {}".format(len(longest_prime)))
+    print("prime numbers:")
+    print(longest_prime)
+
+
+def main():
+    limit = 1000000
+    run(limit)
 
 
 if __name__ == '__main__':
