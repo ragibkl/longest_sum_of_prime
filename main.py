@@ -1,4 +1,4 @@
-#!/python3
+#!/usr/bin/env python3
 
 import sys
 
@@ -22,20 +22,20 @@ def is_prime(number):
 
 
 def sums_of_primes(limit):
+    prime_list = [ i for i in range(limit) if is_prime(i) ]
+    prime_list = reversed(prime_list)
+
     sums = []
+    current_sum = 0
+    current_primes = []
+    for prime in prime_list:
+        current_sum += prime
+        current_primes.append(prime)
 
-    for start_index in range(limit):
-        primes = []
-        current_sum = 0
-        for i in range(start_index, limit):
-            if not is_prime(i):
-                continue
+        while current_sum > limit:
+            current_sum -= current_primes.pop(0)
 
-            current_sum += i
-            if current_sum >= limit:
-                break
-            primes.append(i)
-            sums.append((current_sum, primes[:]))
+        sums.append((current_sum, current_primes[:]))
 
     return sums
 
