@@ -12,7 +12,7 @@ def is_prime(number):
     if number in PRIMES:
         return True
 
-    for i in range(2, number):
+    for i in range(2, int(number ** 0.5)):
         if number % i == 0:
             NOT_PRIMES.append(number)
             return False
@@ -26,7 +26,12 @@ def sums_of_primes(limit):
     current_sum = 0
     current_primes = []
 
+    percentile = limit / 10000
     for i in range(limit):
+        if i % percentile == 0:
+            progress = i / limit * 100
+            print("\rProgress: {0:.2f} %".format(progress), end='')
+
         if not is_prime(i):
             continue
 
@@ -41,11 +46,13 @@ def sums_of_primes(limit):
         current_primes.append(i)
         sums.append((current_sum, current_primes[:]))
 
+    print("\rProgress: Complete!")
+
     return sums
 
 
 def main():
-    limit = 1000
+    limit = 1000000
     sums = sums_of_primes(limit)
 
     longest_sum = 0
