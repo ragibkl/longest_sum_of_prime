@@ -7,16 +7,21 @@ assignment description: https://s3-ap-southeast-1.amazonaws.com/soding-assessmen
 ```
 $ python3 --version
 Python 3.6.5
-
 ```
 
 2. clone the project
-`git clone git@github.com:ragibkl/longest_sum_of_prime.git`
+```
+git clone git@github.com:ragibkl/longest_sum_of_prime.git
+```
 
 3. cd to the project folder
-`cd longest_sum_of_prime`
+```
+cd longest_sum_of_prime
+```
 
 4. Run it
-`./main.py`
+```
+./main.py
+```
 
 5. Optionally edit the limit variable in the `main.py` file
